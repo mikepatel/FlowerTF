@@ -122,9 +122,12 @@ if __name__ == "__main__":
     plt.savefig(os.path.join(os.getcwd(), "plots"))
 
     # ----- FINE TUNE ----- #
+    print(f'\n\nFINE TUNE\n\n')
+
+    base_model.trainable = True
     unfreeze_at = 152
-    for layer in base_model.layers[unfreeze_at:]:
-        layer.trainable = True
+    for layer in base_model.layers[:unfreeze_at]:
+        layer.trainable = False
 
     # re-compile
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
