@@ -123,8 +123,8 @@ if __name__ == "__main__":
 
     # ----- FINE TUNE ----- #
     unfreeze_at = 152
-    for layer in base_model.layers[:unfreeze_at]:
-        layer.trainable = False
+    for layer in base_model.layers[unfreeze_at:]:
+        layer.trainable = True
 
     # re-compile
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
