@@ -30,11 +30,12 @@ if __name__ == "__main__":
 
     # rescale images
     IMAGE_SIZE = 224
-    BATCH_SIZE = 16
+    BATCH_SIZE = 32
 
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255,
         horizontal_flip=True,
+        vertical_flip=True,
         validation_split=0.2)
 
     train_generator = datagen.flow_from_directory(
