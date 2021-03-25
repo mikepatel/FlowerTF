@@ -125,7 +125,7 @@ if __name__ == "__main__":
     print(f'\n\nFINE TUNE\n\n')
 
     base_model.trainable = True
-    unfreeze_at = 152
+    unfreeze_at = 150
     for layer in base_model.layers[:unfreeze_at]:
         layer.trainable = False
 
