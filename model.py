@@ -137,7 +137,7 @@ if __name__ == "__main__":
     model.summary()
 
     # continue training
-    fine_tune_epochs = 30
+    fine_tune_epochs = 100
     history = model.fit(train_generator,
                         steps_per_epoch=len(train_generator),
                         epochs=fine_tune_epochs,
