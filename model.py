@@ -137,10 +137,10 @@ if __name__ == "__main__":
     model.summary()
 
     # continue training
-    epochs = 10
+    fine_tune_epochs = 30
     history = model.fit(train_generator,
                         steps_per_epoch=len(train_generator),
-                        epochs=epochs,
+                        epochs=fine_tune_epochs,
                         validation_data=val_generator,
                         validation_steps=len(val_generator))
 
