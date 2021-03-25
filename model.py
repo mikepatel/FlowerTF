@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     # rescale images
     IMAGE_SIZE = 224
-    BATCH_SIZE = 32
+    BATCH_SIZE = 16
 
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255,
@@ -77,7 +77,7 @@ if __name__ == "__main__":
         tf.keras.layers.Dense(5, activation='softmax')
     ])
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])
 
