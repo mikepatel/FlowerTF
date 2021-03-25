@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     # rescale images
     IMAGE_SIZE = 224
-    BATCH_SIZE = 64
+    BATCH_SIZE = 32
 
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255,
@@ -120,6 +120,7 @@ if __name__ == "__main__":
     plt.savefig(os.path.join(os.getcwd(), "plots"))
 
     # ----- DEPLOY ---- #
+    """
     # convert model to TF Lite
     saved_model_dir = 'save'
     tf.saved_model.save(model, saved_model_dir)
@@ -129,3 +130,4 @@ if __name__ == "__main__":
 
     with open('model.tflite', 'wb') as f:
         f.write(tflite_model)
+    """
