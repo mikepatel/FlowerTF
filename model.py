@@ -71,8 +71,8 @@ if __name__ == "__main__":
     model = tf.keras.Sequential([
         base_model,
         tf.keras.layers.Conv2D(32, 3, activation='relu'),
-        tf.keras.layers.Dropout(0.2),
         tf.keras.layers.GlobalAveragePooling2D(),
+        tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Dense(5, activation='softmax')
     ])
 
