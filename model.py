@@ -67,7 +67,11 @@ if __name__ == "__main__":
         include_top=False
     )
 
-    base_model.trainable = False
+    # base_model.trainable = False
+
+    unfreeze_at = 152
+    for layer in base_model.layers[:unfreeze_at]:
+        layer.trainable = False
 
     # add classification head
     model = tf.keras.Sequential([
