@@ -9,7 +9,6 @@ Project description:
 ################################################################################
 # Imports
 import os
-import numpy as np
 import matplotlib.pyplot as plt
 
 import tensorflow as tf
@@ -60,9 +59,11 @@ if __name__ == "__main__":
     IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
     # Create the base model from the pre-trained model MobileNet V2
-    base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
-                                                   include_top=False,
-                                                   weights='imagenet')
+    base_model = tf.keras.applications.MobileNetV2(
+        input_shape=IMG_SHAPE,
+        weights='imagenet',
+        include_top=False
+    )
 
     base_model.trainable = False
 
@@ -115,11 +116,12 @@ if __name__ == "__main__":
     plt.ylim([0, 1.0])
     plt.title('Training and Validation Loss')
     plt.xlabel('epoch')
-    plt.show()
+    #plt.show()
+    plt.savefig(os.path.join(os.getcwd(), "plots"))
 
     # ----- DEPLOY ---- #
     # convert model to TF Lite
-    saved_model_dir = 'save/fine_tuning'
+    saved_model_dir = 'save'
     tf.saved_model.save(model, saved_model_dir)
 
     converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_dir)
