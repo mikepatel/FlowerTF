@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     # rescale images
     IMAGE_SIZE = 224
-    BATCH_SIZE = 32
+    BATCH_SIZE = 16
 
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255,
