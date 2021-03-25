@@ -67,11 +67,7 @@ if __name__ == "__main__":
         include_top=False
     )
 
-    # base_model.trainable = False
-
-    unfreeze_at = 152
-    for layer in base_model.layers[:unfreeze_at]:
-        layer.trainable = False
+    base_model.trainable = False
 
     # add classification head
     model = tf.keras.Sequential([
@@ -88,7 +84,7 @@ if __name__ == "__main__":
 
     model.summary()
 
-    print('Number of trainable variables = {}'.format(len(model.trainable_variables)))
+    #print('Number of trainable variables = {}'.format(len(model.trainable_variables)))
 
     # ----- TRAIN ----- #
     epochs = 10
@@ -124,6 +120,53 @@ if __name__ == "__main__":
     plt.xlabel('epoch')
     #plt.show()
     plt.savefig(os.path.join(os.getcwd(), "plots"))
+
+    # ----- FINE TUNE ----- #
+    unfreeze_at = 152
+    for layer in base_model.layers[:unfreeze_at]:
+        layer.trainable = False
+
+    # re-compile
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+                  loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+
+    model.summary()
+
+    # continue training
+    epochs = 10
+    history = model.fit(train_generator,
+                        steps_per_epoch=len(train_generator),
+                        epochs=epochs,
+                        validation_data=val_generator,
+                        validation_steps=len(val_generator))
+
+    acc = history.history['accuracy']
+    val_acc = history.history['val_accuracy']
+
+    loss = history.history['loss']
+    val_loss = history.history['val_loss']
+
+    plt.clf()
+    plt.figure(figsize=(8, 8))
+    plt.subplot(2, 1, 1)
+    plt.plot(acc, label='Training Accuracy')
+    plt.plot(val_acc, label='Validation Accuracy')
+    plt.legend(loc='lower right')
+    plt.ylabel('Accuracy')
+    plt.ylim([min(plt.ylim()), 1])
+    plt.title('Training and Validation Accuracy')
+
+    plt.subplot(2, 1, 2)
+    plt.plot(loss, label='Training Loss')
+    plt.plot(val_loss, label='Validation Loss')
+    plt.legend(loc='upper right')
+    plt.ylabel('Cross Entropy')
+    plt.ylim([0, 1.0])
+    plt.title('Training and Validation Loss')
+    plt.xlabel('epoch')
+    # plt.show()
+    plt.savefig(os.path.join(os.getcwd(), "plots_finetune"))
 
     # ----- DEPLOY ---- #
     """
