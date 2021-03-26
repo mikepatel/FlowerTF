@@ -91,7 +91,7 @@ if __name__ == "__main__":
     x = inputs
     x = tf.keras.applications.inception_v3.preprocess_input(x)
     x = base_model(x)
-    x = tf.keras.layers.Conv2D(32, 3, activation="relu")(x)
+    x = tf.keras.layers.Conv2D(64, 3, activation="relu")(x)
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
     x = tf.keras.layers.Dropout(0.5)(x)
     x = tf.keras.layers.Dense(5, activation="softmax")(x)
