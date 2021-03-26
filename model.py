@@ -125,7 +125,7 @@ if __name__ == "__main__":
     print(f'\n\nFINE TUNE\n\n')
 
     base_model.trainable = True
-    unfreeze_at = 100
+    unfreeze_at = 70
     for layer in base_model.layers[:unfreeze_at]:
         layer.trainable = False
 
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     model.summary()
 
     # continue training
-    fine_tune_epochs = 100
+    fine_tune_epochs = 10
     history = model.fit(train_generator,
                         steps_per_epoch=len(train_generator),
                         epochs=fine_tune_epochs,
