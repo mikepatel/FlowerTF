@@ -129,13 +129,11 @@ if __name__ == "__main__":
     #plt.show()
     plt.savefig(os.path.join(os.getcwd(), "plots"))
 
-    quit()
-
     # ----- FINE TUNE ----- #
     print(f'\n\nFINE TUNE\n\n')
 
     base_model.trainable = True
-    unfreeze_at = 70
+    unfreeze_at = 300
     for layer in base_model.layers[:unfreeze_at]:
         layer.trainable = False
 
