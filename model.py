@@ -60,7 +60,6 @@ if __name__ == "__main__":
     # ----- MODEL ----- #
     IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-    """
     # Create the base model from the pre-trained model MobileNet V2
     base_model = tf.keras.applications.MobileNetV2(
         input_shape=IMG_SHAPE,
@@ -74,6 +73,7 @@ if __name__ == "__main__":
         weights="imagenet",
         include_top=False
     )
+    """
 
     base_model.trainable = False
 
@@ -89,9 +89,10 @@ if __name__ == "__main__":
     """
     inputs = tf.keras.Input(shape=IMG_SHAPE)
     x = inputs
-    x = tf.keras.applications.inception_v3.preprocess_input(x)
+    #x = tf.keras.applications.inception_v3.preprocess_input(x)
+    x = tf.keras.applications.mobilenet_v2.preprocess_input(x)
     x = base_model(x)
-    x = tf.keras.layers.Conv2D(64, 3, activation="relu")(x)
+    x = tf.keras.layers.Conv2D(32, 3, activation="relu")(x)
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
     x = tf.keras.layers.Dropout(0.5)(x)
     x = tf.keras.layers.Dense(5, activation="softmax")(x)
