@@ -34,8 +34,8 @@ if __name__ == "__main__":
 
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         #rescale=1./255,
-        #horizontal_flip=True,
-        #vertical_flip=True,
+        horizontal_flip=True,
+        vertical_flip=True,
         validation_split=0.2)
 
     train_generator = datagen.flow_from_directory(
