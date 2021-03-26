@@ -33,7 +33,7 @@ if __name__ == "__main__":
     BATCH_SIZE = 32
 
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
-        rescale=1./255,
+        #rescale=1./255,
         #horizontal_flip=True,
         #vertical_flip=True,
         validation_split=0.2)
@@ -78,6 +78,7 @@ if __name__ == "__main__":
     base_model.trainable = False
 
     # add classification head
+    """
     model = tf.keras.Sequential([
         base_model,
         tf.keras.layers.Conv2D(32, 3, activation='relu'),
@@ -85,6 +86,20 @@ if __name__ == "__main__":
         tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Dense(5, activation='softmax')
     ])
+    """
+    inputs = tf.keras.Input(shape=IMG_SHAPE)
+    x = inputs
+    x = tf.keras.applications.inception_v3.preprocess_input(x)
+    x = base_model(x)
+    x = tf.keras.layers.Conv2D(32, 3, activation="relu")(x)
+    x = tf.keras.layers.GlobalAveragePooling2D()(x)
+    x = tf.keras.layers.Dropout(0.5)(x)
+    x = tf.keras.layers.Dense(5, activation="softmax")(x)
+    outputs = x
+    model = tf.keras.Model(
+        inputs=inputs,
+        outputs=outputs
+    )
 
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
                   loss='categorical_crossentropy',
@@ -128,6 +143,8 @@ if __name__ == "__main__":
     plt.xlabel('epoch')
     #plt.show()
     plt.savefig(os.path.join(os.getcwd(), "plots"))
+
+    quit()
 
     # ----- FINE TUNE ----- #
     print(f'\n\nFINE TUNE\n\n')
