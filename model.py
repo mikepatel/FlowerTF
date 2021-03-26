@@ -34,8 +34,8 @@ if __name__ == "__main__":
 
     datagen = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255,
-        horizontal_flip=True,
-        vertical_flip=True,
+        #horizontal_flip=True,
+        #vertical_flip=True,
         validation_split=0.2)
 
     train_generator = datagen.flow_from_directory(
@@ -60,10 +60,18 @@ if __name__ == "__main__":
     # ----- MODEL ----- #
     IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
+    """
     # Create the base model from the pre-trained model MobileNet V2
     base_model = tf.keras.applications.MobileNetV2(
         input_shape=IMG_SHAPE,
         weights='imagenet',
+        include_top=False
+    )
+    """
+    # create base model from pre-trained InceptionV3
+    base_model = tf.keras.applications.InceptionV3(
+        input_shape=IMG_SHAPE,
+        weights="imagenet",
         include_top=False
     )
 
@@ -78,7 +86,7 @@ if __name__ == "__main__":
         tf.keras.layers.Dense(5, activation='softmax')
     ])
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])
 
@@ -120,6 +128,8 @@ if __name__ == "__main__":
     plt.xlabel('epoch')
     #plt.show()
     plt.savefig(os.path.join(os.getcwd(), "plots"))
+
+    quit()
 
     # ----- FINE TUNE ----- #
     print(f'\n\nFINE TUNE\n\n')
